@@ -1,0 +1,67 @@
+{include file="common/header"/}
+<div class="layui-container">
+    <div class="layui-row">
+        <div class="layui-col-md12" style="float: right">
+        <form class="layui-form layui-form-pane"  style="margin-top: 50px"  lay-filter="form">
+
+        <div class="layui-form-item ">
+            <label class="layui-form-label btn-default">用户名</label>
+            <div class="layui-input-inline">
+                <input type="text" name="username"  lay-verify="required"  placeholder=" 用户名"
+                       class="layui-input">
+            </div>
+        </div>
+            <div class="layui-form-item ">
+                <label class="layui-form-label btn-default">密码</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="password"  lay-verify="required"  placeholder=" 密码"
+                           class="layui-input">
+                </div>
+            </div>
+
+
+        <div class="layui-form-item">
+            <div class="layui-input-inline">
+               <button type="button" class="layui-btn" lay-submit="" lay-filter="submit">{:lang('登录')}
+                </button>
+                <a href="{:url('index')}" class="layui-btn layui-btn-primary">{:lang('back')}</a>
+            </div>
+        </div>
+    </form>
+    </div>
+    </div>
+
+</div>
+
+{include file="common/footer"/}
+<script src="/static/index/index/js/login.js?v={:time()}" charset="utf-8"></script>
+<script>
+    layui.use(['form', 'table'], function () {
+        var $ = layui.jquery;
+        var form = layui.form;
+        form.render();
+        form.on('submit(submit)', function (data) {
+            // let imgs=  file.getImgs('addPic');
+
+            //let param=data.field;
+            let param=$('form').serializeArray();
+            //  param.imgs=imgs;
+            loading = layer.load(1, {shade: [0.1, '#fff']});
+            $.post("",param , function (res) {
+                layer.close(loading);
+                if (res.code > 0) {
+                    layer.msg(res.msg, {time: 1800, icon: 1}, function () {
+                        location.href = res.url;
+                    });
+                } else {
+                    layer.msg(res.msg, {time: 1800, icon: 2});
+                }
+            });
+        });
+        // file.init( '{:url("sys.uploads/uploads")}','#addBtn','addPic','#avatar','#notice');
+
+
+    });
+</script>
+</body>
+</html>

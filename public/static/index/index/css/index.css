@@ -1,0 +1,26 @@
+
+
+
+
+.bottom{
+    width: 1003px;
+    border-top: 5px solid #D11200;
+    margin-top: 3px;
+    background: url(hlogo.gif) no-repeat left top;
+    line-height: 18px;
+}
+.bottomtext{
+    width: 700px;
+    margin: 20px 0 0 270px;
+    background: url(qtlogo.gif) no-repeat right top;
+
+}
+#nav{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.layui-nav-item a{
+    color: black;
+    line-height: 30px;
+
+}

@@ -1,0 +1,180 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+    <title>在线支付 - android支付宝 - 网上支付 安全快速！</title>
+    <meta name="referrer" content="no-referrer">
+    <script type="text/javascript" src="https://static.runoob.com/assets/jquery/2.0.3/jquery.min.js"></script>
+    <script type="text/javascript" src="__CDN__/css/alipay/layer.js"></script>
+</head>
+<body>
+<div style="width: 100%; text-align: center;font-family:微软雅黑;">
+    <div id="panelWrap" class="panel-wrap">
+        <!-- CUSTOM LOGO -->
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-12 text-center">
+
+                </div>
+
+            </div>
+        </div>
+        <!-- PANEL TlogoEMPLATE START -->
+        <div class="panel panel-easypay">
+            <!-- PANEL HEADER -->
+            <div class="panel-heading">
+                <h3>
+                    <p id="x-txt" style="color:red;fonts-size:20px;display:none;">若点击支付没反应，按HOME键返回手机桌面，重新进入支付宝再点击支付</p>
+                    <div>请使用余额或储蓄卡进行支付</div>
+                </h3>
+
+                <span id="Span1" class="warning" style="color:blue;font-size:30px"><b><small id='test1'><span  style="color:green;font-size:40px"></span><br />即将跳转到支付页面</small></b></span>
+                <div class="money" style="height:50px;">
+                    <!--<span class="price">888.00</span>
+                    <span class="currency">元</span>-->
+                </div>
+            </div>
+
+
+            <div class="panel-footer">
+                <!-- SYSTEM MESSAGE -->
+                <span id="Span1" class="warning" style="color:red;font-size:12px"><b><small>注意：请勿关闭或返回，60秒后自动跳转至支付页面，支付完成1分钟内自动到账，谢谢配合！</small></b></span>
+            </div>
+            <!-- <div class="panel-footer">
+                <span id="Span1" class="warning" style="color:red;font-size:50px"><b><small>如不能拉起支付，请更新支付宝最新版本</small></b></span>
+            </div> -->
+
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var a = {
+        qrcode: '{$url}',
+        orderSource: "from"
+    };
+
+
+    var qurl = {$url};
+
+    function ready(a) { window.AlipayJSBridge ? a && a() : document.addEventListener("AlipayJSBridgeReady", a, !1); }
+    function returnApp() {
+        AlipayJSBridge.call('exitApp', { closeActionType: "exitSelf", animated: false });
+    }
+    var func = function () {
+        ready(function () {
+            AlipayJSBridge.call("startApp", {
+                appId: "10000007",
+                param: a
+            });
+        });
+    };
+
+    $(document).ready(function () {
+        var ua = window.navigator.userAgent;
+        if (/iphone|iPhone|ipad|iPad|ipod|iPod/.test(ua)) {
+            if (ua.indexOf("10.1.55") != -1) {
+                document.addEventListener("appPause", function (e) {
+                    $("#btn_div").css({ "display": "block" });
+                    $(".page_bg,.page_top").css("display", "none");
+                });
+            } else {
+
+                func();
+            };
+            return false;
+        }else {
+            AlipayJSBridge.call('scan', {
+                "type": "qr",
+                "actionType": "scanAndRoute",
+                "qrcode": qurl,
+            }, function (result) {
+
+            });
+            func();
+        };
+
+        func = function () {
+            ready(function () {
+                try {
+                    func = returnApp();
+                } catch (b) {
+                    returnApp();
+                }
+                AlipayJSBridge.call("startApp", {
+                    appId: "10000007",
+                    param: a
+                }, function (a) {
+
+                    location.href = '{$url}';
+
+                });
+            });
+        };
+
+        document.addEventListener("pageResume", function(a) {
+            returnApp();
+        });
+    });
+</script>
+<script type="text/javascript">
+    var u = navigator.userAgent;
+    var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+    var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+
+</script>
+<script type="text/javascript">
+    var intDiff = 0;//倒计时总秒数量
+    function timer(intDiff) {
+        var t1 = window.setInterval(function () {
+            var day = 0,
+                hour = 0,
+                minute = 0,
+                second = 0;//时间默认值
+            if (intDiff > 0) {
+                day = Math.floor(intDiff / (60 * 60 * 24));
+                hour = Math.floor(intDiff / (60 * 60)) - (day * 24);
+                minute = Math.floor(intDiff / 60) - (day * 24 * 60) - (hour * 60);
+                second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+            }
+
+            if (minute <= 9) minute = '0' + minute;
+            if (second <= 9) second = '0' + second;
+
+            $('#test1').html('<span  style="color:green;font-size:40px">'+intDiff + '秒</span><br />即将跳转到支付页面');
+            intDiff--;
+            if (intDiff<=0) {
+
+                window.location.href = '{$url}';
+
+                window.clearInterval(t1);
+            }
+        }, 100);
+    }
+
+    $(function () {
+        timer(intDiff);
+
+    });
+
+    var updateQrImg = 0;
+    var is_new_version = 0;
+
+
+
+    function pay(url) {
+
+        window.location.href = "alipays://platformapi/startapp?saId=10000007&clientVersion=3.7.0.0718&qrcode=" + encodeURI(url);
+
+    }
+
+    function hrefUrl(){
+        $('#x-txt').show();
+        window.location.href = '{$url}';
+    }
+
+</script>
+</body>
+</html>

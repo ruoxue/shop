@@ -1,0 +1,27 @@
+<footer style="bottom:0px;background: white;text-align: center;margin-top: 30px;padding: 30px">
+    <div class="bottom-div">
+        <div class="bottom"><!--=========bottom==========-->
+            <div class="bottomtext" >
+                <p class="link lay-row" id="link">
+
+
+
+                </p>
+                <p style="margin-top:10px;">
+                    <span style="color:#FF0000; font-size:13px; font-weight:bold;">
+                        {:$config['site_name']}</span><br>
+                    电话：{:$config['site_phone']} 传真：{:$config['site_phone']}<br>
+                    咨询QQ：{:$config['qq_isuse']} &nbsp;咨询信箱：{:$config['site_email']} <br>
+                    24小时咨询热线：{:$config['site_tel400']}（企业业务） <br>
+                    Copyright © 2003-20{:date('y')} <a href="/" target="_blank">{:$config['site_copyright']}</a>&nbsp;&nbsp;<a href="http://www.beian.miit.gov.cn">{:$config['icp']}</a>
+
+
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+<script src="/static/plugins/layui/layui.js" charset="utf-8"></script>
+<script src="/static/common/js/net.js?v={:time()}" charset="utf-8"></script>
+<script src="/static/common/js/base.js?v={:time()}" charset="utf-8"></script>
+<script src="/static/common/js/foot.js?v={:time()}" charset="utf-8"></script>

@@ -1,0 +1,25 @@
+</head>
+<body style="background: #F2F2F2">
+<ul class="layui-nav layui-bg-blue">
+    <li class="layui-nav-item">
+        <a href="/"
+           style="text-align: center;font-style: italic;font-size: 26px">
+            <h2 style="font-size: 26px;color: white">{$config['title']}</h2>
+        </a>
+
+    </li>
+    <li style="float: right">
+     <a href="{:url('/index/user/center')}">  {if $nickname == ''} 登录 {/if}  {if $nickname != ''} {$nickname} {/if} </a>
+    </li>
+
+</ul>
+<div>
+    <img
+            src="/storage/uploads/nav.png"
+            style="margin-top: 10px;margin-bottom: 10px;height: 80px;width: 100%" >
+
+</div>
+<!--nav-->
+<ul class="layui-nav layui-bg-red" id="nav" style="line-height: normal">
+</ul>
+<!--nav-->

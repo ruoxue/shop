@@ -1,0 +1,29 @@
+.goods_item{
+
+}
+.goods_item_bg{
+    background: url(/static/common/img/bg.png);
+    width: 100%;
+    padding: 3px;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+.goods_item_bg span{
+    font-family: HYk2gj;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    color: #904a23;
+    margin-top: 1.875rem;
+    height: 2.8125rem;
+    line-height: 2.8125rem;
+    font-size: 2.125rem;
+    font-weight: 700;
+}
+.goods_item_bg .prePrice{
+    font-size: 1rem;
+    font-weight: 500;
+    color: red;
+
+}

@@ -1,0 +1,163 @@
+{include file="common/header"/}
+
+    <link href="/static/index/goods/css/detail.css?v={:time()}" charset="utf-8"></link>
+<style>
+    .wrap{ text-align: center; }
+    .wrap img{ width: 60%;cursor: crosshair; }
+    .loupe{
+        position:absolute;
+        pointer-events:none;
+        visibility:hidden;
+        z-index:999;
+        width: 200px;
+        height: 200px;
+        border:3px solid #636363;
+        border-radius:50%;
+    }
+    .home-class{
+        text-align: center;
+        font-size: x-large;
+    }
+    .sku_li{
+        float: left;
+        position: relative;
+        margin: 0 5px 10px 0;
+        vertical-align: middle;
+        line-height: 20px;
+        background: #FFF;
+        border-width: 2px;
+        border-style: solid;
+        border-color: lightgrey;
+        padding: 3px;
+        cursor: pointer;
+        font-size: 16px;
+
+    }
+    .click{
+        border-width: 2px;
+        border-style: solid;
+        border-color: red;
+        font-size: 16px;
+    }
+ul{
+    margin: 10px;
+}
+
+
+
+</style>
+
+
+{include file="common/nav"/}
+
+<!--目录-->
+<div>
+    <div class="layui-carousel" style="background-color: red" id="banner">
+        <div carousel-item id="bannerItem">
+
+        </div>
+    </div>
+</div>
+<!--目录-->
+
+<div  class="layui-container">
+
+    <div class="layui-row">
+        <div class="loupe"></div>
+        <div class="wrap layui-col-md6 layui-col-xs12 layui-col-lg6"><div id="imgTitle"></div></div>
+
+        <div class="layui-col-md6 layui-col-xs12 layui-col-lg6" style="padding: 10px">
+            <div id="title" style="font-size: 30px;margin-top: 10px"></div>
+            <div  style="margin-top: 30px">  <span id="desc" style="font-size: larger;color: #000;" > </span></div>
+
+            <div style="margin-top: 20px" >价格: <span id="price" style="font-size: larger;color: red;margin-top: 10px"  > </span></div>
+            <div style="margin-top: 20px">库存: <span id="stock" style="font-size: larger;color: red;margin-top: 20px" > </span></div>
+
+
+            <div class="sku">
+
+                <ul id="ul_sku" data-property="尺码" class="J_TSaleProp tb-clearfix">
+                    <li onclick="sku.click('sku_li')" id="sku_li" class="sku_li" data-value="20509:1889864023">
+                        <a href="javascript:void(0);" data-spm-anchor-id="2013.1.iteminfo.3">
+                            <span data-spm-anchor-id="2013.1.iteminfo.i0.2138592eadNvKh">东京现货 S</span>
+                        </a>
+                        <i>已选中</i>
+                    </li>
+                    <li onclick="sku.click('sku_li2')" id="sku_li2" class="sku_li" data-value="20509:1889864023">
+                        <a href="javascript:void(0);" data-spm-anchor-id="2013.1.iteminfo.3">
+                            <span data-spm-anchor-id="2013.1.iteminfo.i0.2138592eadNvKh">东京现货 S</span>
+                        </a>
+                        <i>已选中</i>
+                    </li>
+                </ul>
+            </div>
+
+
+
+
+        </div></div>
+    </div>
+
+</div>
+
+<!--detail-->
+<div id="detail"  class="layui-container"
+     style="border:  1px solid #f2f2fe ; padding: 30px;background: white;
+        padding: 10px;
+      margin-top: 0px">
+<input id="goods_id" hidden value="{$id}">
+    <div class="layui-row">
+
+
+        <button  style="float: right" onclick="buy()" class="layui-btn layui-btn-primary ">联系购买</button>
+    </div>
+
+
+
+
+    </div>
+
+   <div  class="layui-container" style="clear:left;margin-top: 30px ;border: 1px solid silver">
+
+       <br>
+       <div style="font-size: 22px;color: #0C0C0C;margin-left: 10px">商品详情</div>
+       <p style="margin: 30px" id="content">9999
+       </p>
+
+   </div>
+
+
+
+
+
+
+</div>
+
+
+</div>
+{include file="common/right"/}
+</div>
+
+
+
+
+
+<!--首页展示热门etc-->
+
+
+
+{include file="common/footer"/}
+
+<script src="/static/common/js/xuzoom.js?v={:time()}" charset="utf-8"></script>
+<script src="/static/index/goods/js/detail.js?v={:time()}" charset="utf-8"></script>
+<script src="/static/index/index/js/left.js?v={:time()}" charset="utf-8"></script>
+<script src="/static/index/index/js/right.js?v={:time()}" charset="utf-8"></script>
+
+<script>
+
+
+</script>
+</body>
+</html>
+
+

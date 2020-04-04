@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>主页面</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/static/plugins/font-awesome-4.7.0/css/font-awesome.min.css" media="all">
+    <link rel="stylesheet" href="/static/admin/css/main.css" media="all">
+    <link rel="stylesheet" href="/static/plugins/layui/css/layui.css" media="all">
+    <style>
+        .layui-card {border:1px solid #f2f2f2;border-radius:5px;}
+        .icon {margin-right:10px;color:#1aa094;}
+        .icon-cray {color:#ffb800!important;}
+        .icon-blue {color:#1e9fff!important;}
+        .icon-tip {color:#ff5722!important;}
+        .LM-qiuck-module {text-align:center;margin-top: 10px}
+        .LM-qiuck-module a i {display:inline-block;width:100%;height:60px;line-height:60px;text-align:center;border-radius:2px;font-size:30px;background-color:#F8F8F8;color:#333;transition:all .3s;-webkit-transition:all .3s;}
+        .LM-qiuck-module a cite {position:relative;top:2px;display:block;color:#666;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;font-size:14px;}
+        .welcome-module {width:100%;height:210px;}
+        .panel {background-color:#fff;border:1px solid transparent;border-radius:3px;-webkit-box-shadow:0 1px 1px rgba(0,0,0,.05);box-shadow:0 1px 1px rgba(0,0,0,.05)}
+        .panel-body {padding:10px}
+        .panel-title {margin-top:0;margin-bottom:0;font-size:12px;color:inherit}
+        .label {display:inline;padding:.2em .6em .3em;font-size:75%;font-weight:700;line-height:1;color:#fff;text-align:center;white-space:nowrap;vertical-align:baseline;border-radius:.25em;margin-top: .3em;}
+        .layui-red {color:red}
+        .main_btn > p {height:40px;}
+        .layui-bg-number {background-color:#F8F8F8;}
+        .LM-notice:hover {background:#f6f6f6;}
+        .LM-notice {padding:7px 16px;clear:both;font-size:12px !important;cursor:pointer;position:relative;transition:background 0.2s ease-in-out;}
+        .LM-notice-title,.LM-notice-label {
+            padding-right: 70px !important;text-overflow:ellipsis!important;overflow:hidden!important;white-space:nowrap!important;}
+        .LM-notice-title {line-height:28px;font-size:14px;}
+        .LM-notice-extra {position:absolute;top:50%;margin-top:-8px;right:16px;display:inline-block;height:16px;color:#999;}
+    </style>
+</head>
+<body>
+<div class="LM-container">
+    <div class="LM-main">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-md12">
+                <div class="layui-row layui-col-space15">
+                    <div class="layui-col-md12">
+                        <div class="layui-card">
+                            <div class="layui-card-header"><i class="fa fa-warning icon"></i>数据统计</div>
+                            <div class="layui-card-body">
+                                <div class="welcome-module">
+                                    <div class="layui-row layui-col-space10">
+                                        <div class="layui-col-xs6">
+                                            <div class="panel layui-bg-number">
+                                                <div class="panel-body">
+                                                    <div class="panel-title">
+                                                        <span class="label pull-right layui-bg-blue">实时</span>
+                                                        <h5>用户统计</h5>
+                                                    </div>
+                                                    <div class="panel-content">
+                                                        <h1 class="no-margins">{$config['userCount']}</h1>
+                                                        <small>当前分类总记录数</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-xs6">
+                                            <div class="panel layui-bg-number">
+                                                <div class="panel-body">
+                                                    <div class="panel-title">
+                                                        <span class="label pull-right layui-bg-cyan">实时</span>
+                                                        <h5>商品统计</h5>
+                                                    </div>
+                                                    <div class="panel-content">
+                                                        <h1 class="no-margins">{$config['goodsCount']}</h1>
+                                                        <small>当前分类总记录数</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-xs6">
+                                            <div class="panel layui-bg-number">
+                                                <div class="panel-body">
+                                                    <div class="panel-title">
+                                                        <span class="label pull-right layui-bg-orange">实时</span>
+                                                        <h5>浏览统计</h5>
+                                                    </div>
+                                                    <div class="panel-content">
+                                                        <h1 class="no-margins">{$config['userCount']}</h1>
+                                                        <small>当前分类总记录数</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-xs6">
+                                            <div class="panel layui-bg-number">
+                                                <div class="panel-body">
+                                                    <div class="panel-title">
+                                                        <span class="label pull-right layui-bg-green">实时</span>
+                                                        <h5>订单统计</h5>
+                                                    </div>
+                                                    <div class="panel-content">
+                                                        <h1 class="no-margins">{$config['orderCount']}</h1>
+                                                        <small>当前分类总记录数</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="layui-col-md12">
+                        <div class="layui-card">
+                            <div class="layui-card-header"><i class="fa fa-line-chart icon"></i>报表统计</div>
+                            <div class="layui-card-body">
+                                <div id="echarts-records" style="width: 100%;min-height:500px"></div>
+                            </div>
+                           <div style="text-align: center">
+                               <button  class="layui-btn" onclick="load(1)">小时</button>
+                               <button onclick="load(2)" class="layui-btn" >日</button>
+                               <button onclick="load(3)" class="layui-btn">月</button>
+                           </div>
+                       </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script src="/static/plugins/layui/layui.js" charset="utf-8"></script>
+<script src="/static/plugins/echarts/echarts.min.js" charset="utf-8"></script>
+<script src="/static/plugins/echarts/echarts-theme.js" charset="utf-8"></script>
+<script>
+    layui.config({
+        base: "/static/admin/js/"
+    }).extend({
+        "LM": "LM"
+    });
+
+    load(1);
+
+
+    function  load(type) {
+
+        layui.use(['layer', 'LM'], function () {
+            var $ = layui.jquery,
+                layer = layui.layer;
+
+            $.post("{:url('stastic')}",{'type':type},function (res) {
+                console.log(res.data);
+                var x=[];
+                var y1=[];
+                var y2=[];
+                var y3=[];
+                var y4=[];
+                let y5=[];
+                res.data.forEach(item=>{
+                    x.push(item.x);
+                    y1.push(item.y1);
+                    y2.push(item.y2);
+                    y3.push(item.y3);
+                    y4.push(item.y4);
+                    y5.push(item.y5);
+                });
+                /**
+                 * 报表功能
+                 */
+                var echartsRecords = echarts.init(document.getElementById('echarts-records'), 'walden');
+                var optionRecords = {
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data:['邮件营销','联盟广告','视频广告','直接访问','搜索引擎']
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    toolbox: {
+                        feature: {
+                            saveAsImage: {}
+                        }
+                    },
+                    xAxis: {
+                        type: 'category',
+                        boundaryGap: false,
+                        data:   x
+                    },
+                    yAxis: {
+                        type: 'value'
+                    },
+                    series: [
+                        {
+                            name:'订单数',
+                            type:'line',
+                            stack: '订单数',
+                            data:y1
+                        },
+                        {
+                            name:'订单金额',
+                            type:'line',
+                            stack: '总量',
+                            data:y2
+                        },
+                        {
+                            name:'支付订单',
+                            type:'line',
+                            stack: '总量',
+                            data:y3
+                        },
+                        {
+                            name:'支付率',
+                            type:'line',
+                            stack: '总量',
+                            data:y4
+                        },{
+                            name:'支付金额',
+                            type:'line',
+                            stack: '总量',
+                            data:y5
+                        }
+
+                    ]
+                };
+                echartsRecords.setOption(optionRecords);
+
+                // echarts 窗口缩放自适应
+                window.onresize = function(){
+                    echartsRecords.resize();
+                }
+            });
+
+        });
+
+    }
+
+</script>
+</body>
+</html>

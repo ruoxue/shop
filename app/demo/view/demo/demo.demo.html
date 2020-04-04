@@ -1,0 +1,77 @@
+{extend name='extra@admin/content'}
+
+ 
+
+{block name="content"}
+ 
+
+
+
+
+
+
+<form onsubmit="return false;" data-auto="true" method="post">
+    {if empty($list)}
+    <p class="help-block text-center well">没 有 记 录 哦！</p>
+    {else}
+    <input type="hidden" value="resort" name="action"/>
+    <table class="layui-table"  cellspacing="0" cellpadding="0" border="0">
+        <thead>
+        <tr>
+           
+           
+			<th class='text-center'>商户订单</th>
+			<th class='text-center'>通道订单</th> 
+		 
+			<th class='text-center'>订单金额</th>
+            <th class='text-center'>日期</th>
+            <th class='text-center'>支付状态</th>
+			<th class='text-center'>同步状态</th>
+			<th class='text-center'>支付url</th>
+			<th class='text-center'>mark</th>
+
+            
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $list as $key=>$vo}
+        <tr> 
+			<td class='text-center'>{$vo.orderId}</td>
+			<td class='text-center'>{$vo.channelOrderId}</td> 
+			<td class='text-center'>{$vo.tradeMoney}</td>
+		 
+            <td class='text-center'>{$vo.orderDate|format_time}</td>
+            <td class='text-center'>
+                {if $vo.status eq 0}
+                <span>未支付</span>
+                {elseif $vo.status eq 1}
+                <span style="color:#090">已支付</span>
+                {/if}
+            </td>
+			
+			<td class='text-center'>
+                {if $vo.respStatus eq 0}
+                <span>未同步</span>
+                {elseif $vo.respStatus eq 1}
+                <span style="color:#090">已同步</span>
+                {/if}
+            </td>
+			
+			 
+      
+			<td class="text-center nowrap"><a href='{$vo.pay_url}'>支付链接</a></td>
+
+		 
+			<td class="text-center nowrap">{$vo.qMark}</td>
+
+			
+			
+           
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+    {if isset($page)}<p>{$page}</p>{/if}
+    {/if}
+</form>
+{/block}

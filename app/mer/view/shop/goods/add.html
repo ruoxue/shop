@@ -1,0 +1,247 @@
+{include file="common/header"/}
+<div class="LM-container">
+    <div class="LM-main">
+        <div class="admin-main layui-anim layui-anim-upbit">
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend>{$title}</legend>
+            </fieldset>
+            <form class="layui-form layui-form-pane" lay-filter="form">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">类型</label>
+                    <div class="layui-input-inline">
+                        <select name="pid" lay-verify="required">
+                            <option value="0">默认顶级</option>
+                            {volist name="goodsClass" id="vo"}
+                            <option value="{$vo.id}" {if !empty($info) && $info.pid==$vo.id} selected {
+                            /if} >{$vo.title}</option>
+                            {/volist}
+                        </select>
+                    </div>
+
+                    <label class="layui-form-label">商品名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="title" lay-verify="required" placeholder="{:lang('pleaseEnter')}商品名称"
+                               class="layui-input">
+                    </div>
+
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">描述</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="description" placeholder="{:lang('pleaseEnter')}描述"
+                               class="layui-input">
+                    </div>
+
+                    <label class="layui-form-label">关键词</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="keywords" placeholder="{:lang('pleaseEnter')}关键词" class="layui-input">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">
+                        (多个关键词用空格隔开)
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">链接</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="link" lay-verify="url" placeholder="{:lang('pleaseEnter')}链接"
+                               class="layui-input">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">
+                        必须是https 或者http
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">商品图片</label>
+                    <input type="hidden" name="thumb" id="avatar">
+                    <div class="layui-input-inline">
+                        <div class="layui-upload">
+                            <button type="button" class="layui-btn layui-btn-primary" id="addBtn"><i
+                                    class="icon icon-upload3"></i>点击上传
+                            </button>
+                            <div class="layui-upload-list">
+
+                                <p id="notice"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="addPic" class="layui-form-item"></div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">最低价</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="minPrice" lay-verify="number" placeholder="{:lang('pleaseEnter')}点击量"
+                               class="layui-input">
+                    </div>
+                    <label class="layui-form-label">最高价</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="maxPrice" lay-verify="number" placeholder="{:lang('pleaseEnter')}点击量"
+                               class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">原价</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="price" lay-verify="number" placeholder="{:lang('pleaseEnter')}点击量"
+                               class="layui-input">
+                    </div>
+
+                    <label class="layui-form-label">积分</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="point" lay-verify="number" placeholder="{:lang('pleaseEnter')}积分"
+                               class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">市场价</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="markPrice" lay-verify="number" placeholder="{:lang('pleaseEnter')}点击量"
+                               class="layui-input">
+                    </div>
+                    <label class="layui-form-label">销售价</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="salePrice" lay-verify="number" placeholder="{:lang('pleaseEnter')}点击量"
+                               class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">会员价</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="vipPrice" lay-verify="number" placeholder="{:lang('pleaseEnter')}点击量"
+                               class="layui-input">
+                    </div>
+                    <label class="layui-form-label">返利</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="rebate" lay-verify="number" value="0" placeholder="{:lang('pleaseEnter')}返利(元)"
+                               class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">库存</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="stock" lay-verify="number" placeholder="{:lang('pleaseEnter')}"
+                               class="layui-input">
+                    </div>
+                    <label class="layui-form-label">单位</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="unit"  placeholder="{:lang('pleaseEnter')}"
+                               class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">{:lang('status')}</label>
+                    <div class="layui-input-inline">
+                        <input type="radio" name="status" value="1" title="启用" checked>
+                        <input type="radio" name="status" value="0" title="禁用">
+                    </div>
+
+                    <label class="layui-form-label">是否热门</label>
+                    <div class="layui-input-inline">
+                        <input type="radio" name="hot" value="1" title="是" >
+                        <input type="radio" name="hot" value="0" title="否" checked>
+                    </div>
+                    <label class="layui-form-label">是否首页</label>
+                    <div class="layui-input-inline">
+                        <input type="radio" name="home" value="1" title="是" >
+                        <input type="radio" name="home" value="0" title="否" checked>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">规格</label>
+
+                    <div class="layui-input-block">
+
+                        <div onclick="addSku()"  class="layui-form-label btn-default">添加规格</div>
+
+                        <div id="sku" >
+
+
+
+                            <!--<div class="layui-input-inline">-->
+                            <!--{volist name="goodsSkutype" id="skutype"}-->
+                            <!--<input value="{$skutype.id}"  type="radio" name="type"  {if !empty($info) && $info.type==$skutype.id} checked {/if} title="{$skutype.title}" ></input>-->
+                            <!--{/volist}-->
+                            <!--</div>-->
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">商品介绍</label>
+
+                </div>
+                <script id="container" name="content" type="text/plain"></script>
+
+                <div class="layui-form-item">
+                    <div class="layui-input-inline">
+                        <input type="hidden" name="id">
+                        <button type="button" class="layui-btn" lay-submit="" lay-filter="submit">{:lang('submit')}
+                        </button>
+                        <a href="{:url('index')}" class="layui-btn layui-btn-primary">{:lang('back')}</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<script src="/static/common/js/file.js" charset="utf-8"></script>
+<script src="/static/admin/js/goods.js" charset="utf-8"></script>
+{include file="common/footer"/}
+{$ueditor|raw};
+
+
+<script>
+    layui.use(['form', 'layer', 'upload'], function () {
+        var form = layui.form, layer = layui.layer, $ = layui.jquery, upload = layui.upload;
+        var info = '';
+        info = {:json_encode($info)};
+        form.val("form", info);
+
+
+
+        var ue = UE.getEditor('container', {initialFrameHeight:500,
+            serverUrl:'http://test.mxsrvs.com/{:url("sys.uploads/uploads")}'});
+
+
+
+
+
+
+
+
+        if (info) {
+            $('#addPic').attr('src', info.thumb);
+        }
+        form.render();
+        form.on('submit(submit)', function (data) {
+        let imgs=  file.getImgs('addPic');
+
+            //let param=data.field;
+            let param=$('form').serializeArray();
+            param.imgs=imgs;
+            loading = layer.load(1, {shade: [0.1, '#fff']});
+            $.post("",param , function (res) {
+                layer.close(loading);
+                if (res.code > 0) {
+                    layer.msg(res.msg, {time: 1800, icon: 1}, function () {
+                        location.href = res.url;
+                    });
+                } else {
+                    layer.msg(res.msg, {time: 1800, icon: 2});
+                }
+            });
+        });
+        file.init( '{:url("sys.uploads/uploads")}','#addBtn','addPic','#avatar','#notice');
+    });
+
+    function addSku() {
+        goods.createSku();
+
+    }
+</script>

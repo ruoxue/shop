@@ -1,0 +1,55 @@
+{include file="common/header"/}
+<div class="LM-container">
+    <div class="LM-main">
+        <div class="admin-main layui-anim layui-anim-upbit">
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend>{$title}</legend>
+            </fieldset>
+            <ul class="layui-timeline">
+
+
+
+            </ul>
+            <div class="layui-form-item">
+                <div class="layui-input-inline">
+                       <a href="{:url('index')}" class="layui-btn layui-btn-primary">{:lang('back')}</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="/static/common/js/file.js" charset="utf-8"></script>
+{include file="common/footer"/}
+
+
+<script>
+    layui.use(['form', 'layer', 'upload'], function () {
+        var form = layui.form, layer = layui.layer, $ = layui.jquery, upload = layui.upload;
+       $.post('','',function (res) {
+                var html='';
+            if (res.code==1){
+                res.data.reverse().forEach(item=>{
+                    html+=" <li class=\"layui-timeline-item\">\n" +
+                        "    <i class=\"layui-icon layui-timeline-axis\">&#xe63f;</i>\n" +
+                        "    <div class=\"layui-timeline-content layui-text\">\n" +
+                        "      <h3 class=\"layui-timeline-title\">"+item.time+"</h3>\n" +
+                        "      <p> "+item.desc+"</p>\n" +
+
+                        "    </div>\n" +
+                        "  </li>";
+
+                });
+
+                $('.layui-timeline').empty();
+                $('.layui-timeline').html(html);
+            }
+
+       });
+
+
+        file.init( '{:url("sys.uploads/uploads")}','#addBtn','addPic','#avatar','#notice');
+        file.init( '{:url("sys.uploads/uploads")}','#addiconbtn','addicon','#icon','#noticeicon');
+    });
+</script>

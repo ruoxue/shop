@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Content-Language" content="zh-cn">
+    <meta name="apple-mobile-web-app-capable" content="no"/>
+    <meta name="apple-touch-fullscreen" content="yes"/>
+    <meta name="format-detection" content="telephone=no,email=no"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="white">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <title>支付</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <script src="https://gw.alipayobjects.com/as/g/h5-lib/alipayjsapi/3.1.1/alipayjsapi.inc.min.js"></script>
+    <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.css" rel="stylesheet">
+<body>
+<div class="center-block text-center">
+
+    <form class="layui-form layui-box"  action="/demo/demo/index" data-auto="true" method="post">
+
+
+        <div class="layui-form-item">
+
+
+
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">订单金额</label>
+            <div class="layui-input-block">
+
+                <input name="orderMoney" value='1'
+                       required="required" title="订单金额"
+                       placeholder="订单金额(一般情况下 手机不在线 会切到静态预生成码 1的数量多 有10的整数倍 建议测试使用1进行测试 需要测试实时 请联系管理员)"
+                       class="layui-input">
+
+            </div>
+        </div>
+
+
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">类型</label>
+                <div class="layui-input-inline">
+                    <select name="type" lay-verify="required">
+                        {volist name="types" id="vo"}
+                        <option value="{$vo.id}" >{$vo.title}</option>
+                        {/volist}
+                    </select>
+                </div>
+            </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">产品名称</label>
+            <div class="layui-input-block">
+
+                <input name="productName" value='测试'
+                       required="required" title="产品名称" placeholder="产品名称" class="layui-input">
+
+            </div>
+        </div>
+
+        <div class="layui-form-item  ">
+            <label class="layui-form-label">其他信息</label>
+            <div class="layui-input-block">
+
+                <input name="extra"
+                       title="信息" placeholder="" class="layui-input" value="{$extra}">
+
+            </div>
+        </div>
+
+        <br/>
+
+        <div>
+
+
+        </div>
+
+
+        <div class="layui-form-item text-center">
+
+            <button class="layui-btn" type='submit'><i class="fa fa-floppy-o"></i> 支付</button>
+
+        </div>
+        </div>
+    </form>
+
+</div>
+</body>
+</html>

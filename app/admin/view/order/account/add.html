@@ -1,0 +1,224 @@
+{include file="common/header"/}
+<div class="LM-container">
+    <div class="LM-main">
+        <div class="admin-main layui-anim layui-anim-upbit">
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend>{$title}</legend>
+            </fieldset>
+            <form class="layui-form layui-form-pane" style="padding-bottom: 30px" lay-filter="form">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">主账号</label>
+                    <div class="layui-input-inline">
+                        <select name="pid" lay-verify="required">
+                            <option value="0">默认顶级</option>
+                            {volist name="payAccount" id="vo"}
+                            <option value="{$vo.id}" {if !empty($info) && $info.pid==$vo.id} selected {
+                            /if} >{$vo.ltitle}</option>
+                            {/volist}
+                        </select>
+                    </div>
+
+                    <label class="layui-form-label">类型</label>
+                    <div class="layui-input-inline">
+                        <select name="channelId" lay-verify="required">
+                            <option value="0">默认顶级</option>
+                            {volist name="payChannel" id="vo"}
+                            <option value="{$vo.id}" {if !empty($info) && $info.channelId==$vo.id} selected {
+                            /if} >{$vo.ltitle}</option>
+                            {/volist}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">真实姓名</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="realNamed" lay-verify="required"
+                               placeholder="{:lang('pleaseEnter')}真实姓名" class="layui-input">
+                    </div>
+
+                    <label class="layui-form-label">登录账号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="logonId" lay-verify="required" placeholder="{:lang('pleaseEnter')}登录账号"
+                               class="layui-input">
+                    </div>
+
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">银行</label>
+                    <div class="layui-input-inline">
+                        <select name="bankId" lay-verify="required">
+                            <option value="0">默认顶级</option>
+                            {volist name="bank" id="vo"}
+                            <option value="{$vo.id}" {if !empty($info) && $info.bankId==$vo.id} selected {
+                            /if} >{$vo.name}</option>
+                            {/volist}
+                        </select>
+                    </div>
+                    <label class="layui-form-label">预收</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="preMoney" lay-verify="required"
+                               placeholder="{:lang('pleaseEnter')}preMoney" class="layui-input">
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">APPID</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="userId" lay-verify="required"
+                               placeholder="{:lang('pleaseEnter')}userId" class="layui-input">
+                    </div>
+
+                    <label class="layui-form-label">密码</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="payPwd" lay-verify="required"
+                               placeholder="{:lang('pleaseEnter')}payPwd" class="layui-input">
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">单位时间</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="unit" lay-verify="required"
+                               placeholder="{:lang('pleaseEnter')}unit" class="layui-input">
+                    </div>
+
+                    <label class="layui-form-label">单位次数</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="unitTime" lay-verify="required"
+                               placeholder="{:lang('pleaseEnter')}单位次数" class="layui-input">
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">标题</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="title" lay-verify="required" placeholder="{:lang('pleaseEnter')}title"
+                               class="layui-input">
+                    </div>
+                    <label class="layui-form-label">别名</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="title_alias" placeholder="{:lang('pleaseEnter')}描述"
+                               class="layui-input">
+                    </div>
+
+
+                </div>
+
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">token(私钥)</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="token" placeholder="{:lang('pleaseEnter')}token"
+                               class="layui-textarea">
+                    </div>
+
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">extra(公钥)</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="extra" placeholder="{:lang('pleaseEnter')}extra"
+                               class="layui-textarea">
+                    </div>
+
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">区域</label>
+                    <div class="layui-input-block">
+                        <input type="checkbox" name="" title="全部" lay-skin="primary" checked>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">{:lang('status')}</label>
+                    <div class="layui-input-inline">
+                        <input type="radio" name="status" checked value="1" title="启用">
+                        <input type="radio" name="status" value="0" title="禁用">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-inline">
+
+                        <button type="button" class="layui-btn" lay-submit="" lay-filter="bind">绑定</button>
+                        <button type="button" class="layui-btn layui-btn-primary" lay-filter="unbind" lay-submit="">解绑
+                        </button>
+                    </div>
+                    <div class="layui-input-inline">
+                        <input type="hidden" name="id">
+                        <button type="button" class="layui-btn" lay-submit="" lay-filter="submit">{:lang('submit')}
+                        </button>
+                        <a href="{:url('index')}" class="layui-btn layui-btn-primary">{:lang('back')}</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+{include file="common/footer"/}
+
+
+<script>
+    layui.use(['form', 'layer', 'upload'], function () {
+        var form = layui.form, layer = layui.layer, $ = layui.jquery, upload = layui.upload;
+        var info = '';
+
+        info = {:json_encode($info)};
+        form.val("form", info);
+
+        form.render();
+        form.on('submit(submit)', function (data) {
+            loading = layer.load(1, {shade: [0.1, '#fff']});
+            $.post("", data.field, function (res) {
+                layer.close(loading);
+                if (res.code > 0) {
+                    layer.msg(res.msg, {time: 1800, icon: 1}, function () {
+                        location.href = res.url;
+                    });
+                } else {
+                    layer.msg(res.msg, {time: 1800, icon: 2});
+                }
+            });
+        });
+
+        form.on('submit(bind)', function (data) {
+            loading = layer.load(1, {shade: [0.1, '#fff']});
+            $.post("{:url('bindMainAccount')}", data.field, function (res) {
+                layer.close(loading);
+                if (res.code > 0) {
+                    layer.msg(res.msg, {time: 1800, icon: 1}, function () {
+                        $('#token').val(res.data.token);
+                        $('#extra').val(res.data.extra);
+                    });
+                } else {
+                    layer.msg(res.msg, {time: 1800, icon: 2});
+                }
+            });
+        });
+
+
+        form.on('submit(unbind)', function (data) {
+            loading = layer.load(1, {shade: [0.1, '#fff']});
+            $.post("{:url('unBindMainAccount')}", data.field, function (res) {
+                layer.close(loading);
+                if (res.code > 0) {
+                    $('#token').val(res.data.token);
+                    $('#extra').val(res.data.extra);
+                } else {
+                    layer.msg(res.msg, {time: 1800, icon: 2});
+                }
+            });
+        });
+
+
+    });
+</script>

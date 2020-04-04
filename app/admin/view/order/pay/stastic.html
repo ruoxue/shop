@@ -1,0 +1,179 @@
+{include file="common/header"/}
+<style>
+    lable{
+        margin-left: 20px;
+    }
+</style>
+<div class="LM-container">
+    <div class="LM-main">
+        <fieldset class="layui-elem-field layui-field-title">
+            <legend>{:lang('list')}</legend>
+            <blockquote class="layui-elem-quote">
+                <div class="LM-table">
+
+                    <div class="layui-form-item" pane >
+                        &nbsp;   &nbsp;
+                        <label>账号</label>
+                        <input type="radio" name="group" value="1" title="账号"
+                        >
+                        &nbsp;   &nbsp;
+                        <label>用户</label>
+                        <input type="radio" name="group" value="2" title="用户"  >
+                        &nbsp;   &nbsp;
+                        <label>日</label>
+                        <input type="radio" name="group" value="3" title="日"
+                        >
+                        &nbsp;   &nbsp;
+                        <label>月</label>
+                        <input type="radio" name="group" value="4" title="月"    >
+                        &nbsp;   &nbsp;
+                        <label>年</label>
+                        <input type="radio" name="group" value="5" title="年"     >
+                        &nbsp;   &nbsp;
+                        <label>二级账号</label>
+                        <input type="radio" name="group" value="6" title="二级账号"      >
+                        &nbsp;   &nbsp;
+                        <label>商户</label>
+                        <input type="radio" name="group" value="7" title="商户"  >
+                        &nbsp;   &nbsp;
+                        <label>账号&日</label>
+                        <input type="radio" name="group" value="8" title="账号&日"  >
+
+                        &nbsp;   &nbsp;
+                        <label>账号&月</label>
+                        <input type="radio" name="group" value="9" title="账号&月"  >
+
+
+                        &nbsp;   &nbsp;
+                        <label>二级账号&日</label>
+                        <input type="radio" name="group" value="10" title="二级&月"  >
+
+                        &nbsp;   &nbsp;
+                        <label>二级账号&月</label>
+                        <input type="radio" name="group" value="11" title="二级&月"  >
+                    </div>
+                    <br>
+                    <br>
+                    <button class="layui-btn data-add-btn layui-btn-sm" lay-submit="" lay-filter="add" id="search">{:lang('search')}</button>
+
+
+                </div>
+            </blockquote>
+
+        </fieldset>
+
+
+
+        <table class="layui-table" id="list" lay-filter="list"></table>
+    </div>
+</div>
+
+
+<script type="text/html" id="action">
+    <a href="{:url('edit')}?id={{d.id}}" class="layui-btn  layui-btn-xs" lay-event="edit">{:lang('edit')}</a>
+    <a  class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">{:lang('del')}</a>
+</script>
+<script type="text/html" id="status">
+    <div>
+        {{ d.status == 0 ? '未跳转' : '' }}
+        {{ d.status == 1 ? '已跳转' : '' }}
+        {{ d.status == 2 ? '已取链' : '' }}
+        {{ d.status == 10 ? '<span style="color:red">已支付</span>' : '' }}
+    </div>
+
+</script>
+<script type="text/html" id="pay">
+    <div>
+        {{ d.isPay == 0 ? '未支付' : '' }}
+
+        {{ d.isPay == 1 ? '<span style="color:red">已支付</span>' : '' }}
+    </div>
+
+</script>
+
+<script type="text/html" id="thumb">
+    {{d.title}}<img src="/static/admin/images/image.gif" onmouseover="layer.tips('<img src={{d.thumb}}>',this,{tips: [1, '#fff']});" onmouseout="layer.closeAll();">
+</script>
+<script type="text/html" id="start_time">
+    {{layui.util.toDateString(d.start_time, 'yyyy/MM/dd HH:mm:ss')}}
+</script>
+
+<script type="text/html" id="publish_time">
+    {{layui.util.toDateString(d.publish_time, 'yyyy/MM/dd HH:mm:ss')}}
+</script>
+<script type="text/html" id="create_time">
+    {{layui.util.toDateString(d.create_time, 'yyyy/MM/dd HH:mm:ss')}}
+</script>
+
+<script type="text/html" id="amount">
+    <spna>{{parseFloat(d.HadOrderMoney/d.dayHadMoney*100).toFixed(2)}}<span><sub>‰</sub></span></spna>
+</script>
+<script type="text/html" id="order">
+    {{parseFloat(d.hadOrder/d.haveOrder*100).toFixed(2)}}<span><sub>‰</sub></span>
+</script>
+
+<script type="text/html" id="HadOrderMoney">
+    {{parseFloat(d.HadOrderMoney/100).toFixed(2)}}<span><sub></sub></span>
+</script>
+<script type="text/html" id="dayHadMoney">
+    {{parseFloat(d.dayHadMoney/100).toFixed(2)}}<span><sub></sub></span>
+</script>
+<script type="text/html" id="hadOrder">
+    {{parseFloat(d.hadOrder/100).toFixed(2)}}<span><sub></sub></span>
+</script>
+<script type="text/html" id="haveOrder">
+    {{parseFloat(d.haveOrder/100).toFixed(2)}}<span><sub></sub></span>
+</script>
+<!--<script type="text/html" id="update_time">-->
+<!--    {{layui.util.toDateString(d.update_time*1000, 'yyyy-MM-dd HH:mm:ss')}}-->
+<!--</script>-->
+{include file="common/footer"/}
+<script>
+    layui.use(['form', 'table'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table;
+
+        var tableIn = table.render({
+            elem: '#list',
+            url: '{:url("stastic")}',
+            method: 'post',
+            cols: [[
+                {checkbox: true, fixed: true},
+                {field: 'id', title: 'ID', width: 180, fixed: true, sort: true},
+                {field: 'realNamed', title: '账号', width: 180, fixed: true, sort: true},
+                {field: 'toAccountRealNamed', title: 'mini账号', width: 180, fixed: true, sort: true},
+
+                {field: 'HadOrderMoney', title: '支付金额', width: 120, fixed: true,templet: '#HadOrderMoney'},
+                {field: 'dayHadMoney', title: '总金额', width: 120, fixed: true,templet: '#dayHadMoney'},
+                {field: 'hadOrder', title: '支付订单', width: 120, fixed: true,templet: '#hadOrder'},
+                {field: 'haveOrder', title: '总订单', width: 120,templet: '#haveOrder'},
+                { title: '单数成功率', width: 120,templet: '#order'},
+                {  title: '金额成功率', width: 120,templet:'#amount'},
+
+            ]],
+            limits: [10, 15, 20, 25, 50, 100],
+            limit: 10,
+            page: true
+        });
+
+
+
+
+
+
+        $('#search').click(function () {
+            var $keys = $("input[type='radio']:checked").val();
+            if(!$keys){
+                return layer.msg('请输入关键词');
+            }
+
+            tableIn.reload({ page: {page: 1},where: {group: $keys}});
+
+        })
+
+
+    });
+
+
+</script>

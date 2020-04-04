@@ -1,0 +1,145 @@
+{include file="common/header"/}
+
+
+<link href="/static/index/goods/css/detail.css" charset="utf-8"></link>
+
+
+{include file="common/nav"/}
+<div class="layui-container layui-width-height" style="min-height: 800px;">
+    <div class="layui-row">
+
+
+        <div class="layui-col-md3">
+
+
+        </div>
+        <form class="layui-col-md9 layui-form layui-form-pane"   lay-filter="form">
+
+            <table class="layui-table" id="list" lay-filter="list">
+
+            </table>
+
+
+            <div class="layui-form-item">
+                <select class=" province " lay-ignore  onchange="address.city(this.value,0,0)" name="province">
+
+                </select>
+                <select class="city" lay-ignore  onchange="address.area(0,this.value,0)" name="city">
+
+                </select>
+                <select class="area" lay-ignore    name="areaId">
+                </select>
+
+            </div>
+
+            <div class="layui-form-item">
+                <textarea name="areaInfo"></textarea>
+            </div>
+
+
+
+
+            <div style="float: right;margin:20px">
+                <input id="skuId" name="addressId" hidden>
+                <button type="button" lay-submit="" class="layui-btn layui-btn-danger" lay-filter="submit" >提交</button>
+
+
+            </div>
+        </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+<!--首页展示热门etc-->
+
+
+<div class="layui-edge-bottom">
+
+    {include file="common/footer"/}
+</div>
+<script id="num">
+    1
+</script>
+<script id="total">
+
+
+</script>
+<script src="/static/index/goods/js/buy.js?v={:time()}" charset="utf-8"></script>
+<script src="/static/index/user/js/address.js?v={:time()}" charset="utf-8"></script>
+<script>
+
+
+
+
+    layui.use(['form', 'layer', 'upload','table'], function () {
+
+
+
+
+
+        var form = layui.form, layer = layui.layer, $ = layui.jquery, upload = layui.upload,table=layui.table;
+        var info = '';
+
+
+        var tableIn = table.render({
+            elem: '#list',
+            url: '{:url("buyDetail")}',
+            method: 'post',
+            cols: [[
+                {field: 'title', title: '商品名称', width: 150,fixed:true,},
+                {field: 'description', title: '商品描述', width: 200,fixed:true,},
+
+                {field: 'price', title: '价格', width: 150,fixed:true,},
+
+                {field: 'num', title: '数量', width: 150, templet:'#num',fixed:true,},
+                {field: 'price', title: '总价', width: 150,  templet:'#total',fixed:true,},
+
+            ]],
+
+        });
+
+
+
+
+
+
+
+
+
+        info = {:json_encode($info)};
+        form.val("form", info);
+
+
+        form.render();
+        form.on('submit(submit)', function (data) {
+            loading = layer.load(1, {shade: [0.1, '#fff']});
+            let p=$('form').serializeArray();
+
+            $.post("{:url('goBuy')}", p, function (res) {
+                layer.close(loading);
+                if (res.code > 0) {
+                    layer.msg(res.msg, {time: 1800, icon: 1}, function () {
+                        location.href = res.url;
+                    });
+                } else {
+                    layer.msg(res.msg, {time: 1800, icon: 2});
+                }
+            });
+        });
+
+       address.provice({$info['province']},{$info['city']},{$info['areaId']});
+    });
+
+</script>
+
+</body>
+</html>
+
+

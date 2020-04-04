@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+    <title>订单查询</title>
+    <meta name="referrer" content="no-referrer">
+    <script type="text/javascript" src="https://static.runoob.com/assets/jquery/2.0.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="/static/plugins/layui/css/layui.css" media="all"/>
+
+</head>
+<body>
+<div style="text-align:center;margin-top:100px;font-size:30px;color:blue">
+    <span id="msg"> 请返回查询</span>
+    <br>
+    <span id="timer"></span>
+    <div class="circleChart" id="circle1"></div>
+</div>
+
+</body>
+<script src="/static/plugins/layui/layui.js" charset="utf-8"></script>
+<script type="text/javascript" src="/static/common/js/circleChart.js"></script>
+<script>
+
+    let $ = '';
+    let layer = '';
+
+
+    let t1 = null;
+    let intDiff1 = 60;//倒计时总秒数量
+
+
+    layui.use(['jquery', 'layer'], function () {
+        $ = layui.jquery;
+        layer = layui.layer;
+    });
+
+    let result = {
+
+        'circleShow': function (intDiff) {
+            $(".circleChart").circleChart({
+
+                value: (intDiff1 - intDiff) / intDiff1 * 100,
+                text:  '查询中',
+                unit: 'percent',
+                startAngle: 180,
+                textCenter: true,
+                animation: "easeInOutCubic",
+                color: "#3459eb",
+                backgroundColor: "#e6e6e6",
+
+            });
+
+        },
+        'timeShow': function (intDiff) {
+            let day = 0,
+                hour = 0,
+                minute = 0,
+                second = 0;//时间默认值
+            if (intDiff > 0) {
+                day = Math.floor(intDiff / (60 * 60 * 24));
+                hour = Math.floor(intDiff / (60 * 60)) - (day * 24);
+                minute = Math.floor(intDiff / 60) - (day * 24 * 60) - (hour * 60);
+                second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+            }
+
+            if (minute <= 9) minute = '0' + minute;
+            if (second <= 9) second = '0' + second;
+
+            $('#timer').html('<span  style="color:green;font-size:40px">' + intDiff + '秒</span> 查询中<br />');
+
+        },
+        'query': function () {
+            $.post('', '', function (res) {
+                if (res.code == 0) {
+                    $('#msg').html(res.msg);
+                    layer.tips(res.msg, '#msg', {
+                        tips: [1, '#000'],
+                        time: 5000,
+                        tipsMore: true
+                    });
+                } else {
+
+                    if (res.data.isPay == 1) {
+                        window.clearInterval(t1);
+                        $('#timer').empty();
+                        $('#msg').html('支付成功,请记录唯一订单号:' + res.data.orderId);
+                        $('#circle1').empty();
+                        layer.tips('支付成功', '#msg', {
+                            tips: [1, '#000'],
+                            time: 5000,
+                            tipsMore: true
+                        });
+                        if (res.data.returnUrl){
+                            window.opener = null;
+                            window.open('', '_self');
+                            window.close();
+                            window.location.href=res.data.returnUrl;
+                        }
+
+
+
+                    } else {
+                        $('#msg').html('请等待查询');
+                        layer.tips('请等待查询', '#msg', {
+                            tips: [1, '#000'],
+                            time: 5000,
+                            tipsMore: true
+                        });
+                    }
+
+                }
+
+            });
+        },
+        'timeDown': function (diff) {
+            t1 = window.setInterval(function () {
+
+
+                diff--;
+                result.query();
+                result.timeShow(diff);
+                result.circleShow(diff);
+                if (diff <= 0) {
+                    $('#msg').html('请重新查询');
+                    $('#timer').empty();
+                    window.clearInterval(t1);
+                }
+            }, 1000);
+
+        }
+
+
+    };
+
+
+    result.timeDown(intDiff1);
+
+
+
+
+
+
+
+</script>
+
+</html>

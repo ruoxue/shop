@@ -1,0 +1,72 @@
+{include file="common/header"/}
+
+<link href="/static/index/goods/css/clazz.css" charset="utf-8"></link>
+<style>
+    .home-class{
+        text-align: center;
+        font-size: x-large;
+    }
+
+</style>
+
+
+{include file="common/nav"/}
+
+
+
+<!--目录-->
+<div>
+    <div class="layui-carousel" style="background-color: red" id="banner">
+        <div carousel-item id="bannerItem">
+
+        </div>
+    </div>
+</div>
+<!--目录-->
+
+<!--detail-->
+<div id="detail">
+<input id="goods_id" hidden value="{$pid}">
+    <div id="title" style="font-size: 30px"></div>
+
+    <div class="layui-container">
+        <div class="layui-row">
+
+            <div>
+                <div></div>
+                <!--首页展示热门etc-->
+                <div id="goodsList">
+
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+</div>
+
+</div>
+{include file="common/right"/}
+</div>
+
+
+
+
+
+<!--首页展示热门etc-->
+
+
+
+{include file="common/footer"/}
+<script src="/static/index/goods/js/clazz.js?v={:time()}" charset="utf-8"></script>
+<script src="/static/index/index/js/left.js?v={:time()}" charset="utf-8"></script>
+<script src="/static/index/index/js/right.js?v={:time()}" charset="utf-8"></script>
+</body>
+</html>
+
+

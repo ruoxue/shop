@@ -1,0 +1,203 @@
+{include file="common/header"/}
+<div class="LM-container">
+    <div class="LM-main">
+        <div class="admin-main layui-anim layui-anim-upbit">
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend>{$title}</legend>
+            </fieldset>
+            <form class="layui-form layui-form-pane" lay-filter="form">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">主类型</label>
+                    <div class="layui-input-inline">
+                        <select name="pid" lay-verify="required">
+                            <option value="0">默认顶级</option>
+                            {volist name="goodsClass" id="vo"}
+                            <option value="{$vo.id}" {if !empty($info) && $info.pid==$vo.id} selected {/if} >{$vo.ltitle}</option>
+                            {/volist}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">api</label>
+                    <div class="layui-input-inline">
+                        <select name="api" lay-verify="required">
+                            <option value="0">api</option>
+                            {volist name="payList" id="vo"}
+                            <option value="{$vo.id}" {if !empty($info) && isset($info.api)&&$info.api==$vo.id} selected {/if} >{$vo.value}</option>
+                            {/volist}
+                        </select>
+                    </div>
+
+                    <label class="layui-form-label">api2</label>
+                    <div class="layui-input-inline">
+                        <select name="api2" lay-verify="required">
+                            <option value="0">api2</option>
+
+                            {volist name="javaList" id="vo"}
+
+                            <option value="{$vo.id}" {if !empty($info) && $info.api2==$vo.id} selected {/if} >{$vo.name}</option>
+                            {/volist}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">通道名</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="title" lay-verify="required" placeholder="{:lang('pleaseEnter')}" class="layui-input">
+                    </div>
+
+
+                    <label class="layui-form-label">别名</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="title_alias" placeholder="{:lang('pleaseEnter')}描述" class="layui-input">
+                    </div>
+
+
+                </div>
+                <div  class="layui-form-item">
+
+                    <label class="layui-form-label">是否socket</label>
+                    <div class="layui-input-inline">
+                        <input type="radio" name="isSocket" value="1" checked title="启用">
+                        <input type="radio" name="isSocket" value="0" title="禁用">
+                    </div>
+
+                    <label class="layui-form-label">是否策略</label>
+                    <div class="layui-input-inline">
+                        <input type="radio" name="strategy" value="1"  title="启用">
+                        <input type="radio" name="strategy" value="0" checked title="禁用">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">点击链接</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="link" placeholder="{:lang('pleaseEnter')}点击链接" class="layui-input">
+                    </div>
+                    <label class="layui-form-label">费率</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="rate" placeholder="{:lang('pleaseEnter')}" class="layui-input">
+                    </div>
+
+                </div>
+
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">地址</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="gateway" placeholder="{:lang('pleaseEnter')}" class="layui-input">
+                    </div>
+
+                    <label class="layui-form-label">应答地址</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="notify_url" placeholder="{:lang('pleaseEnter')}" class="layui-input">
+                    </div>
+                    <label class="layui-form-label">前端地址</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="return_url" placeholder="{:lang('pleaseEnter')}" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">param</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="param" placeholder="{:lang('pleaseEnter')}" class="layui-textarea">
+                    </div>
+
+                </div>
+
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">支付二维码或者联系人图片</label>
+                    <input type="hidden" name="img" id="avatar">
+                    <div class="layui-input-inline">
+                        <div class="layui-upload">
+                            <button type="button" class="layui-btn layui-btn-primary"
+                                    id="addBtn"><i
+                                    class="icon icon-upload3"></i>点击上传
+                            </button>
+                            <div class="layui-upload-list" id="addPic">
+
+                                <p id="notice"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <label class="layui-form-label">图标</label>
+                    <input type="hidden" name="icon" id="icon">
+                    <div class="layui-input-inline">
+                        <div class="layui-upload">
+                            <button type="button" class="layui-btn layui-btn-primary"
+                                    id="addiconbtn"><i
+                                    class="icon icon-upload3"></i>点击上传
+                            </button>
+                            <div class="layui-upload-list" id="addicon">
+
+                                <p id="noticicon"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">{:lang('status')}</label>
+                    <div class="layui-input-inline">
+                        <input type="radio" name="status" value="1" checked title="启用">
+                        <input type="radio" name="status" value="0" title="禁用">
+                    </div>
+                    <label class="layui-form-label">{:lang('直连')}</label>
+                    <div class="layui-input-inline">
+                        <input type="radio" name="canGo" value="1" checked title="直连">
+                        <input type="radio" name="canGo" value="0" title="间连">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-inline">
+                        <input type="hidden" name="id"  >
+                        <button type="button" class="layui-btn" lay-submit="" lay-filter="submit">{:lang('submit')}</button>
+                        <a href="{:url('index')}" class="layui-btn layui-btn-primary">{:lang('back')}</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<script src="/static/common/js/file.js" charset="utf-8"></script>
+{include file="common/footer"/}
+
+
+<script>
+    layui.use(['form', 'layer', 'upload'], function () {
+        var form = layui.form, layer = layui.layer, $ = layui.jquery, upload = layui.upload;
+        var info = '';
+        info = {:json_encode($info)};
+        form.val("form", info);
+        if (info) {
+            $('#addPic').attr('src', info.thumb);
+        }
+        form.render();
+        form.on('submit(submit)', function (data) {
+
+
+            //let param=data.field;
+            let param=$('form').serializeArray();
+
+            loading = layer.load(1, {shade: [0.1, '#fff']});
+            $.post("",param , function (res) {
+                layer.close(loading);
+                if (res.code > 0) {
+                    layer.msg(res.msg, {time: 1800, icon: 1}, function () {
+                        location.href = res.url;
+                    });
+                } else {
+                    layer.msg(res.msg, {time: 1800, icon: 2});
+                }
+            });
+        });
+        file.init( '{:url("sys.uploads/uploads")}','#addBtn','addPic','#avatar','#notice');
+        file.init( '{:url("sys.uploads/uploads")}','#addiconbtn','addicon','#icon','#noticeicon');
+    });
+</script>

@@ -1,0 +1,99 @@
+{include file="common/header"/}
+
+
+<link href="/static/index/goods/css/center.css?v={:time()}" charset="utf-8"></link>
+<style>
+    border-width{
+        border-width: 0px;
+
+    }
+    body{
+        background: red;
+    }
+</style>
+
+{include file="common/nav"/}
+<div class="layui-container layui-width-height ">
+    <div class="layui-row" style="margin-bottom: 50px">
+
+
+            {include file="common/center"/}
+
+
+        <div class="layui-col-md10">
+
+            <form class="layui-form layui-form-pane" lay-filter="form">
+
+
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">昵称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="nickname" readonly="readonly"
+                               class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">折扣</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="discount" readonly="readonly"
+                               class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">累计消费</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="total_amount" readonly="readonly"
+                               class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">余额</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="user_money" readonly="readonly"
+                               class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">冻结</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="frozen_money" readonly="readonly"
+                               class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">邮件</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="email" readonly="readonly"
+                               class="layui-input">
+                    </div>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+<!--首页展示热门etc-->
+
+
+<div class="layui-edge-bottom">
+
+    {include file="common/footer"/}
+</div>
+
+<script src="/static/index/goods/js/center.js?v={:time()}" charset="utf-8"></script>
+
+</body>
+</html>
+
+
