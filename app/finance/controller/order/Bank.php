@@ -21,8 +21,7 @@ class Bank extends Backend
         if (Request::isPost()) {
             $keys = Request::post('keys', '', 'trim');
             $page = Request::post('page') ? Request::post('page') : 1;
-             $list = cache('bank');
-            if (!$list) {
+
             $list = Db::name('bank')
                 ->alias('bank')
 
@@ -32,8 +31,6 @@ class Bank extends Backend
                 ->toArray();
 
 
-             cache('bank', $list, 10);
-              }
 
 
             return $result = ['code' => 0, 'msg' => lang('get info success'), 'data' => $list['data'], 'count' => $list['total']];

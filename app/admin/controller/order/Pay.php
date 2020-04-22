@@ -234,9 +234,16 @@ class Pay extends Backend
         }
 
         $ret = send_post("http://127.0.0.1:521/orderSettle/" . $orderPay['mark'] .'/'.$orderPay['tradeNo']. '/ALiPayService', []);
-        $this->success(json_encode($ret), url('index'));
+        $this->success(json_decode($ret,true)['msg'], url('index'));
     }
 
+    public  function  queryOrder($id){
+
+
+
+        $ret = send_post("http://127.0.0.1:521/payQuery", ['id'=>$id]);
+        $this->success(json_encode($ret), url('index'));
+    }
 
 
 

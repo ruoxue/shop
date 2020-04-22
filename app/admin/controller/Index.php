@@ -116,6 +116,7 @@ class Index extends Backend
             ->select();
 
 
+
         $list = Db::name('order')
             ->alias('order')
             ->join('pay_channel channel', 'order.channelId = channel.id')
@@ -123,8 +124,6 @@ class Index extends Backend
             ->join('order_pay queue', 'order.id = queue.orderId', 'left')
             ->join('pay_account account', 'queue.userId = account.userId', 'left')
             ->join('pay_account toAccount', 'queue.toUserId = toAccount.userId')
-            ->join('goods_sku sku', 'sku.id = order.skuId', 'left')
-            ->join('admin admin', 'admin.id = sku.adminId', 'left')
             ->field([
                 'sum(order.orderMoney)' => 'dayHaveMoney',
                 "count(order.orderId)" => 'haveOrder',
@@ -138,9 +137,10 @@ class Index extends Backend
                 "concat(toAccount.realNamed,'-',toAccount.userId)"=>'toAccountRealNamed',
                 'account.userId' => 'id'
 
-            ])
-            ->group('account.userId')->find();
-
+            ])->limit(0,1)
+//
+            ->select();
+       $list=$list[0];
 
         $config = null;//Cache::get('main_config');
 
@@ -162,11 +162,13 @@ class Index extends Backend
                 'orderCount' => Db::name('order')->count('id') / 100,
                 'tradeCount' => Db::name('order')->sum('tradeMoney') / 100,
 
-                'dayHavaMoney'=> $list['dayHaveMoney'] / 100,
-                'dayHadMoney'=>$list['HadOrderMoney']/100,
+                'dayHavaMoney'=> sprintf("%.2f",$list['dayHaveMoney'] / 100),
+                'dayHadMoney'=>sprintf("%.2f",$list['HadOrderMoney']/100),
 
-                'dayOrder'=>$list['haveOrder'] / 100,
-                'dayHadOrder'=>$list['hadOrder'] / 100,
+                'dayOrder'=>sprintf("%.2f",$list['haveOrder'] / 100),
+                'dayHadOrder'=>sprintf("%.2f",$list['hadOrder'] / 100),
+                'moneyRate'=>sprintf("%.2f",$list['HadOrderMoney']/$list['dayHaveMoney']),
+                'orderRate'=>sprintf("%.2f",$list['hadOrder']/$list['haveOrder']),
                 'recentlyOrder'=>$recentlyOrder,
                 'user'=>Db::name('user')->where('status=1')->limit(0,10)->select(),
                 'userCount'=>Db::name('user')->where('status=1')

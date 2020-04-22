@@ -36,7 +36,12 @@ class Plugin extends Addons    // 需继承think\Addons类
     public $menu = [
         [
 
-
+            'href' => 'admin/test',
+            'title' => 'test',
+            'status' => 1,
+            'auth_open' => 1,
+            'menu_status' => 1,
+            'icon' => 'fa fa-wechat',
         ]
     ];
 

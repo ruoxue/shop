@@ -38,26 +38,20 @@ class Account extends Backend
     {
         if (Request::isPost()) {
             $keys = Request::post('keys', '', 'trim');
+            $userId = Request::post('userId', '', 'trim');
             $page = Request::post('page') ? Request::post('page') : 1;
             // $list = cache('account');
             //if (!$list) {
             $list = Db::name('pay_account')
                 ->alias('account')
                 ->join('admin' ,'admin.id=account.adminId')
-                //  ->where('nickname', 'like', '%' . $keys . '%')
-                    ->where(['adminId'=>session('admin.id')])
-                    ->field('account.*,admin.username adminName')
-                ->paginate(['list_rows' => $this->pageSize, 'page' => $page])
-                ->toArray();
+                ->where('account.userId', 'like', '%' . $userId . '%')
+                ->where(['adminId'=>session('admin.id')])
 
-            foreach ($list['data'] as $k => $v) {
-                $list['data'][$k]['lay_is_open'] = false;
-            }
-            // cache('account', $list, 10);
-            //  }
+                ->field('account.*,admin.username adminName')
+                ->select();
+            return $result = ['code' => 0, 'msg' => lang('get info success'), 'data' => $list ];
 
-
-            return $result = ['code' => 0, 'msg' => lang('get info success'), 'data' => $list['data'], 'count' => $list['total']];
 
         }
         return View::fetch();
@@ -70,6 +64,7 @@ class Account extends Backend
         if (Request::isPost()) {
 
             $data = Request::post();
+            $data['status']=0;
             $data['adminId'] = Session::get('admin.id', 0);
             $res = PayAccountModel::create($data);
             if ($res) {
@@ -84,7 +79,7 @@ class Account extends Backend
 
             $payChannel = PayChannelModel::where('status', 1)->select()->toArray();
             $payChannel = TreeHelper::cateTree($payChannel);
-           $bank= BankModel::where('status', 1)->select()->toArray();
+            $bank= BankModel::where('status', 1)->select()->toArray();
             $params['name'] = 'container';
             $params['content'] = '';
             $view = [
@@ -108,7 +103,7 @@ class Account extends Backend
             if (!$data['id']) {
                 $this->error(lang('invalid data'));
             }
-           // dump($data);
+            // dump($data);
             $res = PayAccountModel::update($data);
             if ($res) {
                 $this->success(lang('edit success'));
@@ -157,12 +152,18 @@ class Account extends Backend
 
     public function state()
     {
+
+
         $id = Request::post('id');
         if ($id) {
             $where['id'] = $id;
 
             $link = PayAccountModel::find($id);
-            $where['status'] = $link['status'] ? 0 : 1;
+            $where['status'] =0;// $link['status'] ? 0 : 1;
+            if($link['status']==0){
+                $this->error(lang('无权限'));
+            }
+
             PayAccountModel::update($where);
 
             $this->success(lang('edit success'));

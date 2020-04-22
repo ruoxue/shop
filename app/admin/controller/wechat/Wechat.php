@@ -92,7 +92,7 @@ class Wechat extends Backend {
         if (Request::isPost()) {
             $list = Db::name('wx_account')->alias('a')
                 ->leftJoin('wx_type t','t.type_id=a.type')
-                ->field('a.*,t.name as type_name')->cache(3600)
+                ->field('a.*,t.name as type_name')->cache(10)
                 ->select()->toArray();
 
             return $result = ['code' => 0, 'msg' =>lang('get info success'), 'data' => $list,];
@@ -110,6 +110,7 @@ class Wechat extends Backend {
                 $this->error($e->getMeussage());
             }
             $data['weixin'] = $data['wxname'];
+            $data['token']=$data['w_token'];
             $res = WxAccount::create($data);
             if ($res) {
                 $this->success(lang('add success'),url('index'));
@@ -284,9 +285,11 @@ class Wechat extends Backend {
             $page = Request::post('page') ? Request::post('page') : 1;
             $list=WxFans::where('nickname','like','%'.$keys.'%')
                 ->where('wx_aid',$wx_aid)
-                ->order('fans_id desc')->cache(3600)
+                ->order('fans_id desc')
                 ->paginate(['list_rows' => $this->pageSize, 'page' => $page])
                 ->toArray();
+
+
             $tag = WxTag::where('store_id',$this->store_id)->where('wx_aid',$wx_aid)
                 ->select()->toArray();
 

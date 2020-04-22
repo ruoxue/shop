@@ -65,14 +65,14 @@
                 <div class="sycm">
                     <ul class="clearfix">
                         <li><h2>{$config['dayHadMoney']}</h2><span>今日销售额</span></li>
-                        <li><h2>{$config['dayHavaMoney']}</h2><span>订单销售额</span></li>
-                        <li><h2>{$config['dayHadMoney']-$config['dayHavaMoney'] /100}%</h2><span>环比增长</span></li>
+                        <li><h2> {$config['dayHavaMoney']}</h2><span>订单销售额</span></li>
+                        <li><h2>{$config['moneyRate']}%</h2><span>比例</span></li>
                     </ul>
                     <div style="border-bottom: 1px solid rgba(255,255,255,.1)"></div>
                     <ul class="clearfix">
-                        <li><h2>{$config['dayHadOrder']}</h2><span>今日销售额</span></li>
-                        <li><h2>{$config['dayOrder']}</h2><span>订单销售额</span></li>
-                        <li><h2>{$config['dayHadOrder']*0.01-$config['dayOrder']*0.01 }%</h2><span>环比增长</span></li>
+                        <li><h2>{$config['dayHadOrder']}</h2><span>今日销售量</span></li>
+                        <li><h2>{$config['dayOrder']}</h2><span>订单量</span></li>
+                        <li><h2>{$config['orderRate']}%</h2><span>比例</span></li>
                     </ul>
 
 
@@ -241,8 +241,8 @@
 
     setTimeout(function () {
         myChart6.setOption(option6);
-        myChart7.setOption(option7);
-        myChart8.setOption(option8);
+        // myChart7.setOption(option7);
+        //   myChart8.setOption(option8);
     }, 500);
 
 </script>

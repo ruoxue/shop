@@ -1,1 +1,7 @@
-UPDATE lm_user t SET password = '$2y$12$jJNSWOS.8he.z3s17YCRtesZ1v6F6Ck3zUGBhniRDr2LNHfUUwH5.' WHERE id = 1
+
+
+delete from  `__PREFIX__order_pay`;
+delete from  `__PREFIX__order`;
+delete from  `__PREFIX__pay_missorder`;
+delete from  `__PREFIX__pay_notify`;
+delete from  `__PREFIX__admin_charge`;

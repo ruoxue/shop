@@ -512,6 +512,10 @@ function send_get($url)
 //    $postdata = http_build_query($param);
     //  var_dump($postdata);
     $options = array(
+        'ssl' => [
+            'verify_peer' => false,
+            'verify_peer_name' => false,
+        ],
         'http' => array(
             'method' => 'GET',
             'header' => "Content-type: application/x-www-form-urlencoded\r\n" .
@@ -520,6 +524,8 @@ function send_get($url)
             'timeout' => 15 * 60 // 超时时间（单位:s）
         )
     );
+
+
     $context = stream_context_create($options);
     $result = file_get_contents($url, false, $context);
     return $result;

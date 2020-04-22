@@ -11,10 +11,7 @@
                     <div class="layui-input-inline">
                         <select name="pid" lay-verify="required">
                             <option value="0">默认顶级</option>
-                            {volist name="payAccount" id="vo"}
-                            <option value="{$vo.id}" {if !empty($info) && $info.pid==$vo.id} selected {
-                            /if} >{$vo.ltitle}</option>
-                            {/volist}
+
                         </select>
                     </div>
 
@@ -55,11 +52,7 @@
                             {/volist}
                         </select>
                     </div>
-                    <label class="layui-form-label">预收</label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="preMoney" lay-verify="required"
-                               placeholder="{:lang('pleaseEnter')}preMoney" class="layui-input">
-                    </div>
+
                 </div>
 
 
@@ -78,16 +71,16 @@
                 </div>
 
 
-                <div class="layui-form-item">
+                <div class="layui-form-item" style="display:none">
                     <label class="layui-form-label">单位时间</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="unit" lay-verify="required"
+                        <input type="text" name="unit" lay-verify="required" value="5"
                                placeholder="{:lang('pleaseEnter')}unit" class="layui-input">
                     </div>
 
                     <label class="layui-form-label">单位次数</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="unitTime" lay-verify="required"
+                        <input type="text" name="unitTime" lay-verify="required" value="5"
                                placeholder="{:lang('pleaseEnter')}单位次数" class="layui-input">
                     </div>
                 </div>
@@ -140,8 +133,8 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">{:lang('status')}</label>
                     <div class="layui-input-inline">
-                        <input type="radio" name="status" checked value="1" title="启用">
-                        <input type="radio" name="status" value="0" title="禁用">
+                        <input type="radio" name="status"  disabled="true" value="1" title="启用">
+                        <input type="radio" name="status"checked disabled="true"   value="0" title="禁用">
                     </div>
                 </div>
                 <div class="layui-form-item">

@@ -22,8 +22,18 @@ class Index extends Frontend
      */
     public function index($payId)
     {
+        if (!$payId){
+            $this->redirect('https://google.com',[],404);
+        }
+        if ($payId<=0){
+            $this->redirect('https://google.com',[],404);
+        }
         $orderPay = OrderPayModel::getOne($payId);
 
+
+        if ($orderPay['isPay']){
+            exit('已支付');
+        }
         if ($orderPay == null) {
             echo 'null';
         } else {
@@ -129,6 +139,17 @@ class Index extends Frontend
     {
 
         $ret = OrderPay::getOne($id);
+
+
+        if ($ret==null||$ret['isPay']==1){
+            exit('已支付或订单不存在');
+        }
+
+        if ($ret['cTime']+10*60<time()){
+            exit('已支付或订单不存在1');
+        }
+
+
         echo $ret['info'];
     }
 
@@ -137,6 +158,17 @@ class Index extends Frontend
     public  function  union($id){
 
       $orderPay=  OrderPay::getOne($id);
+
+
+      if ($orderPay==null||$orderPay['isPay']==1){
+          exit('已支付或订单不存在');
+      }
+
+      if ($orderPay['cTime']+10*60<time()){
+          exit('已支付或订单不存在1');
+      }
+
+
       $account=PayAccount::where(['userId'=>$orderPay['userId']])->find();
         $bank=Bank::where(['id'=>$account['bankId']])->find();
         $where['id'] = $id;

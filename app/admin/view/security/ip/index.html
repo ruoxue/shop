@@ -2,23 +2,21 @@
 <div class="LM-container">
     <div class="LM-main">
         <fieldset class="layui-elem-field layui-field-title">
-            <legend>订单{:lang('list')}</legend>
+            <legend> {:lang('list')}</legend>
             <blockquote class="layui-elem-quote">
                 <div class="LM-table">
+
                     <div class="layui-inline">
                         <input type="text" id='keys' name="keys" lay-verify="required" placeholder="{:lang('pleaseEnter')}" autocomplete="off" class="layui-input">
 
                     </div>
                     <button class="layui-btn data-add-btn layui-btn-sm" lay-submit="" lay-filter="add" id="search">{:lang('search')}</button>
-                    <a href="{:url('add')}"  class="layui-btn layui-btn-sm layui-btn-warm">{:lang('add')}商品</a>
+                    <a href="{:url('add')}"  class="layui-btn layui-btn-sm layui-btn-warm">{:lang('add')}IP</a>
 
                 </div>
             </blockquote>
 
         </fieldset>
-
-
-
         <table class="layui-table" id="list" lay-filter="list"></table>
     </div>
 </div>
@@ -29,24 +27,25 @@
     <a  class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">{:lang('del')}</a>
 </script>
 <script type="text/html" id="status">
-    <input type="checkbox" name="status" value="{{d.id}}" lay-skin="switch" lay-text="开启|关闭" lay-filter="status" {{ d.status == 1 ? 'checked' : '' }}>
-
+    {{ d.status == 0 ? '灰名单' : '' }}
+    {{ d.status == 1 ? '白名单' : '' }}
+    {{ d.status == 10 ? '<span style="color:red">黑名单</span>' : '' }}
 </script>
 
-<script type="text/html" id="thumb">
-    {{d.title}}<img src="/static/admin/images/image.gif" onmouseover="layer.tips('<img src={{d.thumb}}>',this,{tips: [1, '#fff']});" onmouseout="layer.closeAll();">
-</script>
+
 <script type="text/html" id="start_time">
-
-    {{layui.util.toDateString(d.cTime*1000, 'yyyy/MM/dd HH:mm:ss')}}
+    {{layui.util.toDateString(d.start_time, 'yyyy/MM/dd HH:mm:ss')}}
 </script>
 
 <script type="text/html" id="publish_time">
-    {{}}
-    {{ (d.mTime*1000>0)?  layui.util.toDateString(d.mTime*1000, 'yyyy/MM/dd HH:mm:ss'):'0'}}
+    {{layui.util.toDateString(d.mTime, 'yyyy/MM/dd HH:mm:ss')}}
 </script>
 <script type="text/html" id="create_time">
-    {{layui.util.toDateString(d.orderDate*1000, 'yyyy/MM/dd HH:mm:ss')}}
+    {{layui.util.toDateString(d.cTime, 'yyyy/MM/dd HH:mm:ss')}}
+</script>
+<script type="text/html" id="link">
+
+    {:url('/index/article/index/id',[],false,true)}/{{d.id}}
 </script>
 <!--<script type="text/html" id="update_time">-->
 <!--    {{layui.util.toDateString(d.update_time*1000, 'yyyy-MM-dd HH:mm:ss')}}-->
@@ -69,26 +68,22 @@
                 ,icon: 'layui-icon-tips' }],
             cols: [[
                 {checkbox: true, fixed: true},
+                {title:'操作',width:180, toolbar: '#action',align:"center",fixed: true},
                 {field: 'id', title: 'ID', width: 80, fixed: true, sort: true},
-                {field: 'name', title: '银行', width: 80, fixed: true,},
-                {field: 'code', title: '编码', width: 120, fixed: true,},
-                {field: 'linkId', title: '银联号', width: 120, fixed: true,},
-                {field: 'bankPhone', title: 'bankPhone', width: 120, fixed: true,},
-                {field: 'info', title: 'info', width: 180, fixed: true,},
-                {field: 'template', title: '模版', width: 100,  },
-                {field: 'status', title: '状态', width: 80,templet:'#status' },
+                {field: 'startIp', title: '起始ip', width: 180,fixed:true, },
+                {field: 'endIp', title: '终止ip', width: 180,fixed:true, },
 
-                {field: 'is_deleted', title: 'is_deleted', width: 80 , },
-                {field: 'bankWechat', title: '公众号', width: 80, },
-                {field: 'cTime', title: '时间', width: 180,templet:'#start_time'},
-                {field: 'mTime', title: '修改时间', width: 180,templet:'#publish_time'},
-                {field: 'extra', title: 'extra', width: 180,},
+                {field: 'status', title: '状态', width: 180, templet:'#status',},
+                {field: 'startIpAddress', title: '起始ip地址', width: 180, },
+                {field: 'endIpAddress', title: '终止ip地址', width: 180, },
+                {field: 'cTime', title: '发布时间', width: 180, templet:'#publish_time'},
+                {field: 'mTime', title: '添加时间', width: 180,templet:'#create_time'},
+                // {field: 'update_time', title: '修改时间', width: 180,templet:'#update_time'},
 
 
-                {title:'操作',width:150, toolbar: '#action',align:"center"}
             ]],
             limits: [10, 15, 20, 25, 50, 100],
-            limit: 10,
+            limit: 15,
             page: true
         });
 

@@ -10,6 +10,7 @@
  * Author: yuege
  * Date: 2019/8/2
  */
+
 namespace app\admin\controller\sys;
 
 use app\admin\model\AuthGroup;
@@ -30,6 +31,7 @@ use think\facade\View;
 class Auth extends Backend
 {
     public $uid = '';
+
     public function initialize()
     {
         $this->uid = Session::get('admin.id');
@@ -39,12 +41,12 @@ class Auth extends Backend
     // 管理员列表
     public function adminList()
     {
-        if(Request::isPost()){
-            $where=$this->request->post();
-            $map=[];
-            $map1=[];
-            $map2=[];
-            if(isset($where['keys'])) {
+        if (Request::isPost()) {
+            $where = $this->request->post();
+            $map = [];
+            $map1 = [];
+            $map2 = [];
+            if (isset($where['keys'])) {
                 $map = [
                     ['a.username', 'like', "%" . $where['keys'] . "%"],
 
@@ -53,22 +55,27 @@ class Auth extends Backend
                     ['a.email', 'like', "%" . $where['keys'] . "%"],
 
                 ];
-                $map2= [
+                $map2 = [
                     ['a.mobile', 'like', "%" . $where['keys'] . "%"],
                 ];
 
             }
-            $list=Db::name('admin')->alias('a')
-                ->join('auth_group ag','a.group_id = ag.id','left')
-                ->field('a.*,ag.title')
-                ->whereOr($map,$map1,$map2)
+            $list = Db::name('admin')->alias('a')
+                ->join('auth_group ag', 'a.group_id = ag.id', 'left')
+                ->join('pay_account account', 'account.adminId = a.id','left')
+                ->field("a.*,ag.title,count(account.id) as accountCount,
+                count(account.status)  accountCanCount,
+                
+                sum(account.preMoney) preMoney")
+                ->whereOr($map, $map1, $map2)
+                ->group('a.id')
                 ->select();
 
 //            foreach ($list['data'] as $k => $v) {
 //                $list['data'][$k]['lay_is_open'] = false;
 //            }
 
-            return $result = ['code'=>0,'msg'=>lang('get info success'),'data'=>$list];
+            return $result = ['code' => 0, 'msg' => lang('get info success'), 'data' => $list];
         }
 
         return view();
@@ -79,19 +86,19 @@ class Auth extends Backend
     {
         if (Request::isPost()) {
             $data = $this->request->post();
-            try{
+            try {
                 $this->validate($data, 'Admin');
-            }catch (\Exception $e){
+            } catch (\Exception $e) {
                 $this->error($e->getMessage());
             }
             $data['password'] = StringHelper::filterWords($data['password']);
-            if(!$data['password']){
-                $data['password']='123456';
+            if (!$data['password']) {
+                $data['password'] = '123456';
             }
-            $data['password'] = password_hash($data['password'],PASSWORD_BCRYPT, SignHelper::passwordSalt());
+            $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT, SignHelper::passwordSalt());
             //添加
             $model = new Admin();
-            $data['token']=md5(uniqid(microtime(true),true));
+            $data['token'] = md5(uniqid(microtime(true), true));
             $result = $model->add($data);
             if ($result) {
                 $this->success(lang('add success'), url('sys.Auth/adminList'));
@@ -104,8 +111,8 @@ class Auth extends Backend
             ->select();
         $admin = Admin::where('status', 1)->select()->toArray();
         $view = [
-            'info'  =>$info,
-            'admin'=>$admin,
+            'info' => $info,
+            'admin' => $admin,
             'authGroup' => $auth_group,
             'title' => lang('add'),
         ];
@@ -128,7 +135,6 @@ class Auth extends Backend
     }
 
 
-
     // 管理员状态修改
     public function adminState()
     {
@@ -136,7 +142,7 @@ class Auth extends Backend
             $data = $this->request->post();
             $id = $this->request->post('id');
             if (empty($id)) {
-                $this->error('id'.lang('not exist'));
+                $this->error('id' . lang('not exist'));
             }
             if ($id == 1) {
                 $this->error(lang('supper man cannot edit state'));
@@ -154,32 +160,32 @@ class Auth extends Backend
     {
         if (Request::isPost()) {
             $data = $this->request->post();
-            if(!$data['username']) $this->error(lang('username').lang('cannot null'));
-            if(!$data['password']) $this->error(lang('password').lang('cannot null'));
-            if(!$data['group_id']) $this->error(lang('adminGroup').lang('cannot null'));
+            if (!$data['username']) $this->error(lang('username') . lang('cannot null'));
+            if (!$data['password']) $this->error(lang('password') . lang('cannot null'));
+            if (!$data['group_id']) $this->error(lang('adminGroup') . lang('cannot null'));
             $admin = Admin::find($data['id']);
-            if(password_verify($data['password'],$admin['password'])){
+            if (password_verify($data['password'], $admin['password'])) {
                 unset($data['password']);
-            }else{
+            } else {
                 $data['password'] = $this->request->post('password', '123456', 'lemo\helper\StringHelper::filterWords');
-                $data['password'] = password_hash($data['password'],PASSWORD_BCRYPT, SignHelper::passwordSalt());
+                $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT, SignHelper::passwordSalt());
             }
             $model = new Admin();
             $model->edit($data);
-            if($this->uid==$data['id']){
-                session('admin',null);
+            if ($this->uid == $data['id']) {
+                session('admin', null);
             }
             $this->success(lang('edit success'), url('sys.Auth/adminList'));
 
         } else {
-            $id = Request::param('id')?Request::param('id'):$this->uid;
+            $id = Request::param('id') ? Request::param('id') : $this->uid;
             if ($id) {
                 $auth_group = AuthGroup::select();
                 $admin = Admin::find($id);
                 $adminList = Admin::where('status', 1)->select()->toArray();
 
                 $view = [
-                    'admin'=>$adminList,
+                    'admin' => $adminList,
                     'info' => $admin,
                     'authGroup' => $auth_group,
                     'title' => lang('edit'),
@@ -194,18 +200,18 @@ class Auth extends Backend
     // 权限列表
     public function adminRule()
     {
-        if(Request::isPost()){
+        if (Request::isPost()) {
             $uid = $this->uid;
 
             $arr = Db::name('auth_rule')
                 ->order('pid asc,sort asc')
                 ->select()->toArray();
-            foreach($arr as $k=>$v){
-                $arr[$k]['lay_is_open']=false;
+            foreach ($arr as $k => $v) {
+                $arr[$k]['lay_is_open'] = false;
             }
-            cache('authRuleList_'.$uid, $arr, 3600);
+            cache('authRuleList_' . $uid, $arr, 3600);
 
-            return $result = ['code'=>0,'msg'=>lang('get info success'),'data'=>$arr,'is'=>true,'tip'=>'操作成功'];
+            return $result = ['code' => 0, 'msg' => lang('get info success'), 'data' => $arr, 'is' => true, 'tip' => '操作成功'];
         }
         return view('admin_rule');
     }
@@ -252,15 +258,15 @@ class Auth extends Backend
     public function ruleDel()
     {
         $id = Request::param('id');
-        $child = AuthRule::where('pid',$id)->find();
+        $child = AuthRule::where('pid', $id)->find();
         if ($id && !$child) {
             AuthRule::destroy($id);
             $this->success(lang('delete success'));
-        }elseif($child){
+        } elseif ($child) {
             $this->error(lang('delete child first'));
 
-        }else{
-            $this->error('id'.lang('not exist'));
+        } else {
+            $this->error('id' . lang('not exist'));
         }
     }
 
@@ -285,9 +291,9 @@ class Auth extends Backend
                 $this->error(lang('rule name cannot null'));
             }
             if (empty($data['sort'])) {
-                $this->error(lang('sort').lang(' cannot null'));
+                $this->error(lang('sort') . lang(' cannot null'));
             }
-            $data['icon'] = $data['icon']?$data['icon']:'fa fa-adjust';
+            $data['icon'] = $data['icon'] ? $data['icon'] : 'fa fa-adjust';
             if (AuthRule::create($data)) {
                 $this->success(lang('add success'), url('sys.Auth/adminRule'));
             } else {
@@ -300,7 +306,7 @@ class Auth extends Backend
             $list = TreeHelper::cateTree($list);
             $pid = Request::param('id') ? Request::param('id') : 0;
             $rule = '';
-            if(Request::get('rule_id')){
+            if (Request::get('rule_id')) {
                 $rule = Db::name('auth_rule')
                     ->find(Request::get('rule_id'));
             }
@@ -309,7 +315,7 @@ class Auth extends Backend
                 'info' => null,
                 'pid' => $pid,
                 'ruleList' => $list,
-                'rule' =>$rule,
+                'rule' => $rule,
             ];
 
             View::assign($view);
@@ -322,7 +328,7 @@ class Auth extends Backend
     {
         if (request()->isPost()) {
             $data = Request::param();
-            $data['icon'] = $data['icon']?$data['icon']:'fa fa-adjust';
+            $data['icon'] = $data['icon'] ? $data['icon'] : 'fa fa-adjust';
             $where['id'] = $data['id'];
             AuthRule::update($data);
             $this->success(lang('edit success'), url('sys.Auth/adminRule'));
@@ -334,7 +340,7 @@ class Auth extends Backend
             $id = Request::param('id');
             $info = AuthRule::find($id)->toArray();
             $rule = '';
-            if(Request::get('rule_id')){
+            if (Request::get('rule_id')) {
                 $rule = Db::name('auth_rule')
                     ->find(Request::get('rule_id'));
             }
@@ -354,7 +360,7 @@ class Auth extends Backend
     // 用户组管理
     public function group()
     {
-        if(Request::isPost()){
+        if (Request::isPost()) {
             //条件筛选
             $title = Request::param('title');
             //全局查询条件
@@ -371,7 +377,7 @@ class Auth extends Backend
                     $this->pageSize, false,
                     ['query' => Request::param()]
                 )->toArray();
-            return $result = ['code'=>0,'msg'=>lang('get info success'),'data'=>$list['data']];
+            return $result = ['code' => 0, 'msg' => lang('get info success'), 'data' => $list['data']];
         }
         return view();
     }
@@ -420,20 +426,20 @@ class Auth extends Backend
     {
         if (Request::isPost()) {
             $data = $this->request->post();
-            if($data['id']==1){
+            if ($data['id'] == 1) {
                 $this->error(lang('supper man cannot edit'));
             }
-            try{
+            try {
                 $this->validate($data, 'AuthGroup');
-            }catch (\Exception $e){
+            } catch (\Exception $e) {
                 $this->error($e->getMessage());
             }
             $where['id'] = $data['id'];
             $res = AuthGroup::update($data, $where);
-            if($res){
+            if ($res) {
 
                 $this->success(lang('edit success'), url('sys.Auth/group'));
-            }else{
+            } else {
                 $this->error(lang('edit fail'));
 
             }
@@ -482,16 +488,16 @@ class Auth extends Backend
     public function groupAccess()
     {
         $list = Cache::get('AuthChecked');
-        if(!$list){
+        if (!$list) {
             $admin_rule = AuthRule::field('id, pid, title')
-                ->where('status',1)
+                ->where('status', 1)
                 ->order('sort asc')->cache(3600)
                 ->select()->toArray();
             $rules = AuthGroup::where('id', Request::param('id'))
-                ->where('status',1)->cache(3600)
+                ->where('status', 1)->cache(3600)
                 ->value('rules');
             $list = TreeHelper::authChecked($admin_rule, $pid = 0, $rules);
-            Cache::set('AuthChecked',$list,3600);
+            Cache::set('AuthChecked', $list, 3600);
 
         }
         $group_id = Request::param('id');
@@ -505,6 +511,7 @@ class Auth extends Backend
         View::assign($view);
         return view('group_access');
     }
+
     // 用户组保存权限
     public function groupSetaccess()
     {
@@ -515,8 +522,8 @@ class Auth extends Backend
         $data = $this->request->post();
         $rules = TreeHelper::authNormal($rules);
         $rls = '';
-        foreach ($rules as $k=>$v){
-            $rls.=$v['id'].',';
+        foreach ($rules as $k => $v) {
+            $rls .= $v['id'] . ',';
         }
         $where['id'] = $data['group_id'];
         $where['rules'] = $rls;
@@ -526,11 +533,77 @@ class Auth extends Backend
             $admin['rules'] = $rls;
             session('admin', $admin);
 
-            $this->success(lang('rule assign success'),url('sys.Auth/group'));
+            $this->success(lang('rule assign success'), url('sys.Auth/group'));
         } else {
             $this->error(lang('rule assign fail'));
         }
     }
+
+
+    /**禁用财务账号
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     */
+    public function accountState()
+    {
+        if (Request::isPost()) {
+            $id = Request::param('id');
+            $status = Request::param('status');
+
+            $ret = Db::name('pay_account')->where(['adminId' => $id])
+                ->update(['status' => $status]);
+
+            if ($ret) {
+                $this->success(lang('edit success'),url('adminList'));
+            } else {
+
+                $this->success(lang('失败'));
+            }
+
+
+        }
+    }
+
+
+    /**
+     * 重置额度
+     */
+    public  function  accountPreMoney(){
+        if (Request::isPost()) {
+            $id = Request::param('id');
+            $money= Request::param('money');
+            Db::startTrans();
+            try {
+                $count=Db::name('pay_account')->where(['adminId'=>$id,'status'=>1])->count('id');
+
+                if (!$count||$count==0){
+                    $this->success(lang(' 已关闭所有财务账号'));
+                }
+                $preMoney=$money/$count;
+                $ret=Db::name('pay_account')->where(['adminId'=>$id,'status'=>1])->update(['preMoney'=>$preMoney]);
+                Db::commit();
+                if ($ret) {
+                    $this->success(lang('edit success'));
+                } else {
+
+                    $this->error(lang('失败'));
+                }
+
+            }catch (\Exception $e){
+                Db::rollback();
+                $this->error(lang('失败'));
+            }
+
+
+
+        }else{
+            return view('account_pre_money');
+        }
+
+
+    }
+
 
 
 

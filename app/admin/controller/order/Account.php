@@ -46,17 +46,14 @@ class Account extends Backend
                 ->join('admin' ,'admin.id=account.adminId')
                 //  ->where('nickname', 'like', '%' . $keys . '%')
                     ->field('account.*,admin.username adminName')
-                ->paginate(['list_rows' => $this->pageSize, 'page' => $page])
-                ->toArray();
+             //   ->paginate(['list_rows' => $this->pageSize, 'page' => $page])
+                ->select();
 
-            foreach ($list['data'] as $k => $v) {
-                $list['data'][$k]['lay_is_open'] = false;
-            }
             // cache('account', $list, 10);
             //  }
 
 
-            return $result = ['code' => 0, 'msg' => lang('get info success'), 'data' => $list['data'], 'count' => $list['total']];
+            return $result = ['code' => 0, 'msg' => lang('get info success'), 'data' => $list ];
 
         }
         return View::fetch();

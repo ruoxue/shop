@@ -34,6 +34,9 @@
 
 <script type="text/html" id="action">
     <a href="{:url('adminEdit')}?id={{d.id}}" class="layui-btn  layui-btn-xs" lay-event="edit">{:lang('edit')}</a>
+    <a href="{:url('accountPreMoney')}?id={{d.id}}" class="layui-btn  layui-btn-xs" lay-event="accountPreMoney">{:lang('改余额')}</a>
+    <a  class="layui-btn layui-btn-danger layui-btn-xs" lay-event="openAccount">{:lang('开启财务')}</a>
+    <a  class="layui-btn layui-btn-danger layui-btn-xs" lay-event="closeAccount">{:lang('关闭财务')}</a>
     <a  class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">{:lang('del')}</a>
 </script>
 <script type="text/html" id="status">
@@ -72,13 +75,17 @@
             ,isOpenDefault:true//节点默认是展开还是折叠【默认展开】
             ,cols: [[
                 {field:'id', title: 'ID', width:60,fixed: true}
-                ,{field:'username', title: '用户名', width:180}
-                ,{field:'title', title: '{:lang("adminGroup")}', width:100}
+
+                ,{title:'操作',width:300, toolbar: '#action',align:"center",fixed: true}
+                ,{field:'username', title: '用户名', width:120,fixed:true}
+                ,{field:'accountCount', title: '财务数量', width:80}
+                ,{field:'accountCanCount', title: '财务使用数量', width:80}
+                ,{field:'preMoney', title: '预充值', width:80}
+                ,{field:'title', title: '{:lang("adminGroup")}', width:180}
                 ,{field:'email', title: '{:lang("email")}', width:200}
                 ,{field:'mobile', title: '{:lang("mobile")}', width:150}
                 ,{field:'ip', title: '{:lang("ip")}',width:150,hide:true}
                 ,{field:'status', title: '{:lang("status")}',width:150,toolbar: '#status'}
-                ,{title:'操作',width:150, toolbar: '#action',align:"center"}
             ]],
             limits: [10, 15, 20, 25, 50, 100],
             limit: 15,
@@ -101,6 +108,38 @@
                     layer.close(index);
                 });
             }
+            if(obj.event === 'openAccount'){
+                layer.confirm('{:lang("Are you sure you want to openAccount it")}', function(index){
+                    var loading = layer.load(1, {shade: [0.1, '#fff']});
+                    $.post("{:url('accountState')}",{id:data.id,status:1},function(res){
+                        layer.close(loading);
+                        if(res.code==1){
+                            layer.msg(res.msg,{time:1000,icon:1});
+                            obj.del();
+                        }else{
+                            layer.msg(res.msg,{time:1000,icon:2});
+                        }
+                    });
+                    layer.close(index);
+                });
+            }
+
+            if(obj.event === 'closeAccount'){
+                layer.confirm('{:lang("Are you sure you want to openAccount it")}', function(index){
+                    var loading = layer.load(1, {shade: [0.1, '#fff']});
+                    $.post("{:url('accountState')}",{id:data.id,status:0},function(res){
+                        layer.close(loading);
+                        if(res.code==1){
+                            layer.msg(res.msg,{time:1000,icon:1});
+                            obj.del();
+                        }else{
+                            layer.msg(res.msg,{time:1000,icon:2});
+                        }
+                    });
+                    layer.close(index);
+                });
+            }
+
         });
 
 
